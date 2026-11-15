@@ -1,7 +1,5 @@
 # Excel Insight Dashboard 📊
 
-### 🚀 Live Demo
-
 
 **Developed by Saman Farshad**
 
@@ -9,7 +7,7 @@
 
 A clean, interactive analytics web app built with Python, Streamlit, Pandas and Plotly. Explore three **preloaded, fictional** datasets, customize KPI cards and charts, apply filters, and export reports.
 
-> **Public demo · No uploads.** This deployment intentionally does not accept Excel files, personal information, accounts, or user-generated data.
+> **Portfolio demo · Fictional datasets only · No uploads.** This deployment intentionally does not accept Excel files, personal information, accounts, or user-generated data.
 
 ## Features
 
