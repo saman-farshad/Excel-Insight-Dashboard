@@ -44,6 +44,17 @@ st.markdown('''<div class="hero"><div class="eyebrow">EXCEL INSIGHT / INTERACTIV
 <p>Drop in an Excel workbook, choose your columns, and explore a clean, interactive dashboard. No coding, no database, no account.</p></div>''', unsafe_allow_html=True)
 
 
+st.markdown(
+    """
+    <div style="text-align:right; margin:0 0 24px; color:#B8C6DB; font-size:14px;">
+        Designed & Developed by
+        <strong style="color:#77CDFF;">Saman Farshad</strong>
+        <span style="color:#8EA3C2;"> | Python & Data Science</span>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
 @st.cache_data(show_spinner=False)
 def workbook_sheets(raw: bytes) -> list[str]:
     with pd.ExcelFile(BytesIO(raw), engine="openpyxl") as book:
