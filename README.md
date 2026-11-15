@@ -3,9 +3,13 @@
 
 [**Launch Excel Insight Dashboard**](https://saman-excel-insight.streamlit.app)
 
-**Developed by Saman Farshad**  
-Python | Streamlit | Pandas | Plotly | Data Analytics
-A clean, interactive analytics web app built with **Python, Streamlit, Pandas and Plotly**. Upload an Excel workbook, explore KPI cards and three charts, apply filters, then export the results. Designed as a compact, accessible alternative to building a full BI report for quick analysis.
+**Developed by Saman Farshad**
+
+**Tech Stack:** Python | Streamlit | Pandas | Plotly | Data Analytics
+
+A clean, interactive analytics web app built with Python, Streamlit, Pandas and Plotly.
+
+ Plotly**. Upload an Excel workbook, explore KPI cards and three charts, apply filters, then export the results. Designed as a compact, accessible alternative to building a full BI report for quick analysis.
 
 ## Features
 
