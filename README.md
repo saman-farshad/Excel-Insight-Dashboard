@@ -9,7 +9,7 @@
 
 A clean, interactive analytics web app built with Python, Streamlit, Pandas and Plotly.
 
- Plotly**. Upload an Excel workbook, explore KPI cards and three charts, apply filters, then export the results. Designed as a compact, accessible alternative to building a full BI report for quick analysis.
+Upload an Excel workbook, explore KPI cards and three charts, apply filters, then export the results. Designed as a compact, accessible alternative to building a full BI report for quick analysis.
 
 ## Features
 
