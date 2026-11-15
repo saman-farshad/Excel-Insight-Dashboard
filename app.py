@@ -1,7 +1,6 @@
-"""Excel Insight Dashboard · Simple analytics from your Excel workbook."""
+"""Excel Insight Dashboard · Public demo with preloaded fictional datasets."""
 from __future__ import annotations
 
-from io import BytesIO
 from pathlib import Path
 
 import pandas as pd
@@ -13,7 +12,11 @@ from analytics import (
 )
 
 ROOT = Path(__file__).resolve().parent
-DEMO = ROOT / "sample_data" / "sample_sales.xlsx"
+DATASETS = {
+    "Sales performance": ROOT / "sample_data" / "sample_sales.xlsx",
+    "Factory quality": ROOT / "sample_data" / "sample_factory.xlsx",
+    "Website engagement": ROOT / "sample_data" / "sample_website.xlsx",
+}
 
 st.set_page_config(page_title="Excel Insight | Data Dashboard", page_icon="📊", layout="wide",
                    initial_sidebar_state="expanded")
@@ -34,60 +37,48 @@ st.markdown("""
 [data-testid="stMetricLabel"] {color:#ADC0D6;}
 [data-testid="stMetricValue"] {color:#F7FAFF;}
 div[data-testid="stPlotlyChart"] {border:1px solid #28374F;border-radius:15px;overflow:hidden;}
-[data-testid="stFileUploader"] {border-radius:14px;}
 .stDownloadButton button {border-radius:10px;}
 </style>
 """, unsafe_allow_html=True)
 
 st.markdown('''<div class="hero"><div class="eyebrow">EXCEL INSIGHT / INTERACTIVE ANALYTICS</div>
 <h1>Understand your data, instantly.</h1>
-<p>Drop in an Excel workbook, choose your columns, and explore a clean, interactive dashboard. No coding, no database, no account.</p></div>''', unsafe_allow_html=True)
+<p>Explore preloaded, fictional datasets with clean interactive charts and exportable reports. No uploads, no login, no personal data required.</p></div>''', unsafe_allow_html=True)
+
 
 
 st.markdown(
     """
     <div style="text-align:right; margin:0 0 24px; color:#B8C6DB; font-size:14px;">
-        Designed & Developed by
+        Designed &amp; Developed by
         <strong style="color:#77CDFF;">Saman Farshad</strong>
-        <span style="color:#8EA3C2;"> | Python & Data Science</span>
+        <span style="color:#8EA3C2;"> | Python &amp; Data Science</span>
     </div>
     """,
     unsafe_allow_html=True,
 )
 
-@st.cache_data(show_spinner=False)
-def workbook_sheets(raw: bytes) -> list[str]:
-    with pd.ExcelFile(BytesIO(raw), engine="openpyxl") as book:
-        return book.sheet_names
-
-
-@st.cache_data(show_spinner=False)
-def load_sheet(raw: bytes, sheet: str) -> pd.DataFrame:
-    return prepare_frame(pd.read_excel(BytesIO(raw), sheet_name=sheet, engine="openpyxl"))
-
-
-st.sidebar.markdown("## Data source")
-uploaded = st.sidebar.file_uploader("Upload Excel (.xlsx)", type=["xlsx"],
-                                    help="Use a workbook with one header row and tabular data.")
-if uploaded is not None:
-    raw_bytes = uploaded.getvalue()
-    source_name = uploaded.name
-    demo_mode = False
-else:
-    demo_mode = st.sidebar.toggle("Explore with sample data", value=True)
-    if not demo_mode:
-        st.info("Upload an Excel file in the left sidebar, or enable the sample dataset to explore the dashboard.")
-        st.stop()
-    raw_bytes = DEMO.read_bytes()
-    source_name = DEMO.name
+# This public app never accepts user-supplied files. A user may only choose a fixed,
+# checked-in Excel workbook. No st.file_uploader, URL inputs, or file writes exist.
+st.sidebar.markdown("## Demo datasets")
+selected_dataset = st.sidebar.selectbox("Choose a sample", list(DATASETS))
+source_path = DATASETS[selected_dataset]
+st.sidebar.caption("Fictional sample data only · No uploads · No account")
 
 try:
-    sheets = workbook_sheets(raw_bytes)
+    if not source_path.is_file():
+        st.error("A built-in sample dataset is missing. Please contact the developer.")
+        st.stop()
+    with pd.ExcelFile(source_path, engine="openpyxl") as book:
+        sheets = book.sheet_names
     selected_sheet = st.sidebar.selectbox("Worksheet", sheets)
-    frame = load_sheet(raw_bytes, selected_sheet)
-except Exception as exc:
-    st.error(f"The workbook could not be opened. Check that it is a valid .xlsx file. ({type(exc).__name__})")
+    frame = prepare_frame(pd.read_excel(source_path, sheet_name=selected_sheet, engine="openpyxl"))
+except Exception:
+    # Avoid exposing internal paths or server diagnostics to the public UI.
+    st.error("Unable to load the built-in sample data.")
     st.stop()
+
+source_name = source_path.name
 
 if frame.empty:
     st.warning("This worksheet does not contain any data rows.")
@@ -185,4 +176,7 @@ with st.expander("Preview filtered data"):
     if len(export_view) > 200:
         st.caption("Preview limited to 200 rows. Excel download contains all filtered rows.")
 
-st.caption("Excel Insight · Streamlit + Pandas + Plotly · Files are processed in the app session; no external AI API is used.")
+st.caption(
+    "Excel Insight · Developed by Saman Farshad · Public demo with fictional data only. "
+    "No file uploads, accounts, or external AI API. Hosting services may process standard access logs."
+)

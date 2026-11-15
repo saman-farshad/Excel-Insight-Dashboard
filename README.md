@@ -1,4 +1,5 @@
 # Excel Insight Dashboard 📊
+
 ### 🚀 Live Demo
 
 [**Launch Excel Insight Dashboard**](https://saman-excel-insight.streamlit.app)
@@ -7,19 +8,19 @@
 
 **Tech Stack:** Python | Streamlit | Pandas | Plotly | Data Analytics
 
-A clean, interactive analytics web app built with Python, Streamlit, Pandas and Plotly.
+A clean, interactive analytics web app built with Python, Streamlit, Pandas and Plotly. Explore three **preloaded, fictional** datasets, customize KPI cards and charts, apply filters, and export reports.
 
-Upload an Excel workbook, explore KPI cards and three charts, apply filters, then export the results. Designed as a compact, accessible alternative to building a full BI report for quick analysis.
+> **Public demo · No uploads.** This deployment intentionally does not accept Excel files, personal information, accounts, or user-generated data.
 
 ## Features
 
-- **Excel upload** (`.xlsx`) and worksheet selection
-- **Instant preview** using the included fictional sales dataset
-- **4 KPIs:** total, average, valid row count, maximum
-- **Up to 3 adaptive charts:** monthly trend, top categories, value distribution, or relationship/outlier view
-- **Simple filters:** category and date range
-- **Exports:** filtered Excel workbook and offline, interactive HTML report
-- No account, database, or AI API required
+- **Three fictional demo datasets**: Sales performance, Factory quality, Website engagement
+- **Built-in Excel workbooks** bundled with the app; users cannot upload their own files
+- **4 KPIs**: total, average, valid row count, maximum
+- **Up to 3 adaptive charts**: monthly trend, categories, distribution, or relationship/outliers
+- **Simple controls**: measure, aggregation, categories, date range
+- **Exports**: filtered sample workbook and interactive offline HTML report
+- **No login, database, or external AI API** required
 
 ## Quick start (Windows / PowerShell)
 
@@ -27,66 +28,69 @@ Upload an Excel workbook, explore KPI cards and three charts, apply filters, the
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-streamlit run app.py
+python -m streamlit run app.py
 ```
 
-The local app opens at **http://localhost:8501**.
+Open **http://localhost:8501**.
 
-## Try the included sample
+## Try the sample datasets
 
-Launch the app and leave **Explore with sample data** enabled. You'll see 2026 sales results, generated for demonstration and **not** real customer information. Then upload your own `.xlsx` file to replace it.
+From the sidebar choose **Sales performance**, **Factory quality**, or **Website engagement**. They are generated fictional examples, not real customer or employee records. Charts and KPIs adapt to the measures you choose.
 
-### Recommended Excel structure
-
-One header row, one observation per row. Example:
-
-| Date | Region | Category | Revenue | Profit |
-|---|---|---|---:|---:|
-| 2026-01-15 | North | Software | 1900 | 420 |
-| 2026-01-16 | South | Hardware | 850 | 160 |
-
-Numeric columns should contain Excel numbers rather than strings like `"1,900 EUR"`. The app looks for a date column using Excel date cells or a date-related column name. A date field is optional; the dashboard adapts if none exists.
+No user file input is accepted in the public demo. `app.py` selects a file exclusively from a hard-coded mapping of bundled datasets.
 
 ## Exports
 
-- `excel_insight_filtered.xlsx` — all filtered source rows, without internal helper fields.
-- `excel_insight_report.html` — self-contained interactive charts that can be opened in a browser even without internet access. Treat it as a data-containing document; share it only when appropriate.
+- `excel_insight_filtered.xlsx`: filtered rows from the selected fictional dataset
+- `excel_insight_report.html`: standalone interactive report based on fictional data; works offline
+
+## Data handling and security scope
+
+- **No file uploader** or user-supplied Excel ingestion on the public application.
+- Workbooks are packaged with the project and load from fixed local paths.
+- There is no authentication, external AI API, or application database.
+- The sample data contain no real people's information.
+- Public visitors can download demo data or offline reports.
+- Streamlit hosting and infrastructure may still process technical access/usage data under their own policies. This demo design **reduces risk, but does not guarantee immunity from cyberattacks or legal obligations**.
+- Keep Streamlit and dependencies updated. Consider applicable privacy notices and German website operator requirements separately.
+
+The `.streamlit/config.toml` upload size cap is additional defense-in-depth, **not** the control that disables uploads; removing the upload widget and user-supplied file processing is the actual mitigation.
 
 ## Project structure
 
 ```text
 Excel_Insight_Dashboard/
-├── app.py                 # Streamlit interface
-├── analytics.py           # Data preparation, filters, charts and exports
+├── app.py                      # Demo-only Streamlit interface
+├── analytics.py                # Filters, charts, exports
 ├── sample_data/
-│   └── sample_sales.xlsx  # Fictional demo workbook
+│   ├── sample_sales.xlsx       # Fictional data
+│   ├── sample_factory.xlsx     # Fictional data
+│   └── sample_website.xlsx     # Fictional data
 ├── .streamlit/
-│   └── config.toml        # Dark theme
+│   └── config.toml
+├── screenshots/
+│   ├── dashboard.png
+│   └── dashboard.1.png
 ├── tests/
-│   └── test_analytics.py  # Unit tests
+│   ├── test_analytics.py
+│   └── test_demo_only.py
 ├── requirements.txt
 ├── .gitignore
 └── README.md
 ```
 
-## Data handling and limitations
+## Dashboard Preview
 
-Excel data is read in the Streamlit process. If run on your own laptop, it stays within that process. **Deploying to a cloud host means uploaded data is processed by that host**. No external AI API is called. Exported HTML reports contain the analyzed values in embedded chart data. This is a lightweight analyst dashboard, not a replacement for Power BI's modeling or enterprise access controls.
+### Main Dashboard
 
-Supported uploads: `.xlsx` up to 50 MB (configured in `.streamlit/config.toml`). Only numeric measures can be analyzed. Very large workbooks may require a larger server. For date columns stored as ambiguous text, convert them into Excel date cells for reliable parsing.
+![Dashboard Overview](screenshots/dashboard.png)
 
-## Screenshots
+### Interactive Charts
 
-After running the app, save a screenshot into an `assets/` folder and reference it here as part of your GitHub portfolio.
+![Dashboard Charts](screenshots/dashboard.1.png)
+
+*Screenshots show the same dashboard layout; the public version now offers only preloaded fictional data.*
 
 ## License
 
 MIT
-
-## Dashboard Preview
-
-### Main Dashboard
-![Dashboard Overview](screenshots/dashboard.png)
-
-### Interactive Charts
-![Dashboard Charts](screenshots/dashboard.1.png)
