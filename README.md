@@ -2,7 +2,6 @@
 
 ### 🚀 Live Demo
 
-[**Launch Excel Insight Dashboard**](https://saman-excel-insight.streamlit.app)
 
 **Developed by Saman Farshad**
 
